@@ -9,12 +9,11 @@ from funcs.func_openCV_patternMatch import *
 
 TEST_PATH= "test_images/"
 DOWNLOAD_PATH = "download/"
-WIDTH, HEIGHT = 20, 40
+WIDTH, HEIGHT = 30, 120
 DELTA = 0.01
 
+originPic = cv2.imread(DOWNLOAD_PATH+"sports_blue.png")
+testPic = cv2.imread(TEST_PATH+"test_sunscreen.png")
 
-orginNyQuil = cv2.imread(DOWNLOAD_PATH+"pattern.png")
-testStore = cv2.imread(TEST_PATH+"test_complicated.png")
-
-func_findPattern(orginNyQuil, testStore, WIDTH, HEIGHT, DELTA)
+func_findPattern(originPic, testPic, WIDTH, HEIGHT, DELTA)
 # func_getContour(orginNyQuil)
