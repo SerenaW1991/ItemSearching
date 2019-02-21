@@ -13,8 +13,9 @@ from io import StringIO
 from matplotlib import pyplot as plt
 
 from funcs.func_getColorRatio import *
+from funcs.func_openCV_patternMatch import *
 
-def inferImage(imagePath, detection_graph, rB, rG, rR, DELTA):
+def inferImage(imagePath, detection_graph, rB, rG, rR, DELTA, pattern):
     # Object detection
     with detection_graph.as_default():
         with tf.Session(graph=detection_graph) as sess:
@@ -45,7 +46,9 @@ def inferImage(imagePath, detection_graph, rB, rG, rR, DELTA):
                         int(boxes[0][x][0]*HEIGHT), int(boxes[0][x][2]*HEIGHT))
                 if(math.fabs(tmpB-rB) > DELTA or math.fabs(tmpG-rG) > DELTA or math.fabs(tmpR-rR) > DELTA):
                     boxes[0][x] = [0,0,0,0]
-                
+                if (func_openCV_patternMatch(pattern, image_np) != True):
+                    boxes[0][x] = [0,0,0,0]
+            
             # Visualization of the results of a detection.
             vis_util.visualize_boxes_and_labels_on_image_array(
                 image_np,

@@ -21,10 +21,9 @@ with detection_graph.as_default():
         od_graph_def.ParseFromString(serialized_graph)
         tf.import_graph_def(od_graph_def, name='')
 
-
 DELTA = 0.1
 inputImage = cv2.imread("productImage/NyQuil_Severe.jpg")
 inputHeight, inputWidth, inputDepth = inputImage.shape
 rB, rG, rR = func_getColorRatio(inputImage, 0,inputWidth, 0, inputHeight)
 print (rB, rG, rR)
-inferImage("testImage/test_complicated.png", detection_graph, rB, rG, rR, DELTA)
+inferImage("testImage/test_complicated.png", detection_graph, rB, rG, rR, DELTA, inputImage)

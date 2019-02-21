@@ -19,14 +19,15 @@ def func_openCV_patternMatch(template, image):
         threshold = 0.9
         # Store the coordinates of matched area in a numpy array 
         loc = np.where( res >= threshold)
-        # Draw a rectangle around the matched region. 
-        for pt in zip(*loc[::-1]): 
-            cv.rectangle(image, pt, (pt[0] + w, pt[1] + h), (0,255,255), 2) 
+        if len(loc) >0:
+            return True
+        # # Draw a rectangle around the matched region. 
+        # for pt in zip(*loc[::-1]): 
+        #     cv.rectangle(image, pt, (pt[0] + w, pt[1] + h), (0,255,255), 2)
 
         # Show the final image with the matched area. 
-        cv.imshow('Detected',image)
-        cv.waitKey(0)
-
+        # cv.imshow('Detected',image)
+        # cv.waitKey(0)
 
 
         # min_val, max_val, min_loc, max_loc = cv.minMaxLoc(res)

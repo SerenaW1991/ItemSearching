@@ -11,7 +11,7 @@ from funcs.func_openCV_patternMatch import *
 TEST_PATH= "test_images/"
 DOWNLOAD_PATH = "download/"
 
-orginNyQuil = cv2.imread(DOWNLOAD_PATH+"pattern.png")
+orginNyQuil = cv2.imread(DOWNLOAD_PATH+"NyQuil_Severe.png")
 testStore = cv2.imread(TEST_PATH+"test_complicated.png")
 
 DEST_WIDTH = 20.0
@@ -22,8 +22,5 @@ imgScale = DEST_WIDTH/width
 
 newX,newY = orginNyQuil.shape[1]*imgScale, orginNyQuil.shape[0]*imgScale
 newimg = cv2.resize(orginNyQuil,(int(newX),int(newY)))
-
-# cv2.imshow("",newimg)
-# cv2.waitKey(0)
 
 func_openCV_patternMatch(newimg, testStore)
