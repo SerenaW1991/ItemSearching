@@ -13,6 +13,34 @@ def compareTwoDics(domColorInPattern, patternDic, SW_Dic, numDomColors, DELTA):
 				return False
 	return True
 
+def bruteForceSlidingWindow(SW_R, SW_C, domColorInPattern, patternColors, testImage, DELTA):
+	testImageRow, testImageCol,_ = testImage.shape
+	row,col = 0,0
+	maxRow,maxCol = row+SW_R, col+SW_C
+
+	print ("Current Sliding Window size: ", SW_R, SW_C)
+
+	while maxRow<testImageRow:
+		while maxCol<testImageCol:
+			print ("Currently Analysing ", row, maxRow, col, maxCol)
+			
+			SW_color = func_getColorRatio(testImage, 0, maxRow,0, maxCol)
+
+			if compareTwoDics(domColorInPattern, patternColors, SW_color, 3, DELTA):
+				func_drawRectAndshow(testImage, row, maxRow, col, maxCol)
+				cv2.imshow("FoundArea", testImage)
+				cv2.waitKey(0)
+				return True
+			else:
+				col += 1
+				maxCol = col+SW_C
+		col = 0
+		maxCol = col+SW_C
+		row += 1
+		maxRow = row+SW_R
+	
+	return False
+
 
 def func_findPattern(pattern, testImage, DELTA, nLargest):
 	patternRow, patternCol, _ = pattern.shape
@@ -22,20 +50,19 @@ def func_findPattern(pattern, testImage, DELTA, nLargest):
 	print (domColorInPattern)
 
 	testImageRow, testImageCol,_ = testImage.shape
-	row = 0
-	curRatio = 0.1
+	SW_R, SW_C = testImageRow-1, testImageCol-1
+
+	while SW_R>=0:
+		while SW_C>=0:
+			if bruteForceSlidingWindow(SW_R, SW_C, domColorInPattern, patternColors, testImage, DELTA):
+				break
+			else:
+				SW_C -= 1
+		SW_C = testImageCol-1
+		SW_R -= 1
+
+
+
+
+
 	
-	while curRatio<10:
-		while(row < testImageRow):
-			maxRow = int(row+patternRow*curRatio)
-			if maxRow >= testImageRow:
-				break;
-			SW_color = func_getColorRatio(testImage, row, maxRow, 0, testImageCol-1)
-
-			if compareTwoDics(patternColors, patternColors, SW_color, 3, DELTA):
-				func_drawRectAndshow(testImage, row, maxRow, 0, testImageCol-1)
-				cv2.imshow("FoundArea", testImage)
-				cv2.waitKey(0)
-
-			row = maxRow
-		curRatio *= 10
