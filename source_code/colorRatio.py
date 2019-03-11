@@ -6,9 +6,8 @@ import numpy
 import pkgutil
 import sys
 
-from funcs.func_closestColor import *
-from funcs.func_findPattern import *
-from funcs.func_getColorRatio import *
+from funcs.func_findWindow import *
+from funcs.func_clusterPixels import *
 
 
 TEST_PATH= "test_images/"
@@ -18,9 +17,10 @@ DELTA = 0.2 # color ratio range
 nLargest = 3 # number of dominant colors
 
 originPic = cv2.imread(DOWNLOAD_PATH+"sports_blue.jpeg") # 1327*400
-smallOrg = cv2.resize(originPic, (0,0), fx=0.05, fy=0.05)  # 133*40
-
 testPic = cv2.imread(TEST_PATH+"test_sunscreen.png")     # 871*1298
-smallTest = cv2.resize(testPic, (0,0), fx=0.1, fy=0.1)   # 86*129
+testPic = cv2.resize(testPic, (0,0), fx=0.25, fy=0.25)
 
-func_findPattern(smallOrg, smallTest, DELTA, nLargest)
+patternModel,domainRatio = func_clusterPixels(originPic, nLargest)  # 3.67seconds
+func_findWindow(testPic, patternModel, domainRatio, DELTA)
+
+# func_findPattern(originPic, testPic, DELTA, nLargest)
