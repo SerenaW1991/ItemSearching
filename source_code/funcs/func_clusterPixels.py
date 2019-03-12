@@ -29,11 +29,11 @@ def func_clusterPixels(image, k):
 
 	kmeans = KMeans(n_clusters=k).fit(df)
 	centroids = kmeans.cluster_centers_
-	# domanColor = []
 
+	# centroids are labelled 0, 1, 2 ...
 	# for center in centroids:
-	# 	domanColor.append(Color(center[0], center[1], center[2]))
-		
+	# 	print (kmeans.predict([[center[0], center[1], center[2]]]))
+
 	domanColorRatio = {}
 
 	for i in range(kmeans.n_clusters):
@@ -44,7 +44,7 @@ def func_clusterPixels(image, k):
 	print ("Clustering time: ", time.time()-start)
 	print ("Color centers: ", centroids)
 	print ("domain color ratio in pattern image: ", domanColorRatio)
-	return [kmeans, domanColorRatio]
+	return [kmeans, centroids, domanColorRatio]
 
 
 def plot(B,G,R,kmeans,centroids):
